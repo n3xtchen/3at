@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { cartContext } from '../../Context/CartContext/CartContext.jsx'
+import { cartContext } from '../../Context/CartContext/CartContext'
 
 export default function OrderDetails() {
 

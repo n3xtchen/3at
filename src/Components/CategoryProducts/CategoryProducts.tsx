@@ -1,9 +1,9 @@
 import axios from 'axios'
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
-import { cartContext } from '../../Context/CartContext/CartContext.jsx';
+import { cartContext } from '../../Context/CartContext/CartContext';
 import toast from 'react-hot-toast';
-import { wishlistContext } from '../../Context/WishListContext/WishListContext.jsx';
+import { wishlistContext } from '../../Context/WishListContext/WishListContext';
 
 export default function CategoryProducts() {
   

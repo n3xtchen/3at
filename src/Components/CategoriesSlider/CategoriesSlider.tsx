@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import Slider from "react-slick";
-import { cartContext } from '../../Context/CartContext/CartContext.jsx';
+import { cartContext } from '../../Context/CartContext/CartContext';
 
 export default function CategoriesSlider() {
 

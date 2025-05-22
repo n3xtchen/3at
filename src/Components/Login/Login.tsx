@@ -3,7 +3,7 @@ import { useFormik } from 'formik'
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import * as Yup from "yup" ;
-import { cartContext } from '../../Context/CartContext/CartContext.jsx';
+import { cartContext } from '../../Context/CartContext/CartContext';
 import toast from 'react-hot-toast';
 export default function Login({saveUserData , changeHref}) {
   let {addToCart,deleteItem} = useContext(cartContext);

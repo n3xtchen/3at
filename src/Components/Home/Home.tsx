@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
-import FeaturedProducts from '../FeaturedProducts/FeaturedProducts.jsx'
-import CategoriesSlider from '../CategoriesSlider/CategoriesSlider.jsx'
-import MainSlider from '../MainSlider/MainSlider.jsx'
-import { cartContext } from '../../Context/CartContext/CartContext.jsx'
+import FeaturedProducts from '../FeaturedProducts/FeaturedProducts'
+import CategoriesSlider from '../CategoriesSlider/CategoriesSlider'
+import MainSlider from '../MainSlider/MainSlider'
+import { cartContext } from '../../Context/CartContext/CartContext'
 
 export default function Home({changeHref}) {
   

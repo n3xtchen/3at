@@ -1,6 +1,6 @@
 import { useFormik } from 'formik'
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
-import { cartContext } from '../../Context/CartContext/CartContext.jsx';
+import { cartContext } from '../../Context/CartContext/CartContext';
 import { useParams } from 'react-router-dom';
 import * as Yup from "yup" ;
 export default function OnlinePay() {

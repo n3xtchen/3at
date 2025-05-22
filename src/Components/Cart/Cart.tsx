@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
-import { cartContext } from '../../Context/CartContext/CartContext.jsx'
+import { cartContext } from '../../Context/CartContext/CartContext'
 import { Link } from 'react-router-dom';
 
 export default function Cart({changeHref}) {

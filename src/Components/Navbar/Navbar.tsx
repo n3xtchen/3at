@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react'
 import logo from "../../assets/img/freshcart-logo.svg"
 import { Link } from 'react-router-dom'
-import { cartContext } from '../../Context/CartContext/CartContext.jsx'
-import { wishlistContext } from '../../Context/WishListContext/WishListContext.jsx';
+import { cartContext } from '../../Context/CartContext/CartContext'
+import { wishlistContext } from '../../Context/WishListContext/WishListContext';
 import toast from 'react-hot-toast';
 export default function Navbar({userData , deleteUserData , hash}) {
   let {numOfCartItems } = useContext(cartContext);
