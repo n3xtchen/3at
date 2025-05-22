@@ -7,5 +7,10 @@ export default defineConfig({
   plugins: [react(), svgr()],
   build: {
     outDir: 'build'
+  },
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: './src/setupTests.js', // assuming the test folder is in the root of our project
   }
 })
