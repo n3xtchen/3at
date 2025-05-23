@@ -1,40 +1,30 @@
-import axios from 'axios';
 import { useFormik } from 'formik'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, {useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import * as Yup from "yup" ;
+import { userContext } from '../../Context/UserContext/UserContext';
+
 export default function Register({changeHref}) {
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("")
- let validationSchema = Yup.object({
-  name:Yup.string().required().min(3).max(10),
-  email:Yup.string().required().email(),
-  password:Yup.string().required().min(6).max(40),
-  rePassword:Yup.string().required().oneOf([Yup.ref("password")] , "rePassword dosn,t match password"),
-  phone:Yup.string().required().matches(/^01[0125][0-9]{8}$/ , "enter valid EG Number"),
- })
- useLayoutEffect(()=>{
-  document.documentElement.scrollTop = 0;
-},[])
+  const {isLoading, setIsLoading, errorMsg, setErrorMsg, handleRegister} = useContext(userContext)
 
- useEffect(()=>{
-  changeHref(window.location.hash);
- } , [])
- let navigate = useNavigate();
-
-function handleRegister(values){
-  setIsLoading(true);
-  axios.post(`https://route-ecommerce.onrender.com/api/v1/auth/signup` , values).then(()=>{
-    setIsLoading(false);
-   
-  
-   navigate("/login")
-  }).catch((error)=>{
-   setErrorMsg(error.response.data.message)
-    setIsLoading(false);
+  let validationSchema = Yup.object({
+    name:Yup.string().required().min(3).max(10),
+    email:Yup.string().required().email(),
+    password:Yup.string().required().min(6).max(40),
+    rePassword:Yup.string().required().oneOf([Yup.ref("password")] , "rePassword dosn,t match password"),
+    phone:Yup.string().required().matches(/^01[0125][0-9]{8}$/ , "enter valid EG Number"),
   })
-}
+
+  useLayoutEffect(()=>{
+    document.documentElement.scrollTop = 0;
+  },[])
+
+  useEffect(()=>{
+    changeHref(window.location.hash);
+  } , [])
+  let navigate = useNavigate();
+
   let formik = useFormik({
     initialValues:{
       name:"" ,
@@ -43,7 +33,7 @@ function handleRegister(values){
       rePassword:"" ,
       phone:"",
     },validationSchema,
-    onSubmit:handleRegister
+    onSubmit: (values) => handleRegister({values, navigate})
   })
   return <>
    <div className="w-75 mx-auto form mt-5 py-4 py-lg-5">

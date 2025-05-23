@@ -1,8 +1,6 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 
-export const ThemeContext = createContext('light');
-
 export let productContext = createContext();
 
 export function ProductContextProvider(props) {
@@ -17,7 +15,7 @@ export function ProductContextProvider(props) {
       setCategories(data.data);
   }
 
-  async function getCategoryProducts(){
+  async function getCategoryProducts(id){
     let {data} = await axios.get(`https://route-ecommerce.onrender.com/api/v1/products?category=${id}`) ; 
       setCategoryProducts(data.data);
   }
@@ -28,7 +26,7 @@ export function ProductContextProvider(props) {
     })
   }
 
-  function getProductDetails(){
+  function getProductDetails(id){
     axios.get(`https://route-ecommerce.onrender.com/api/v1/products/${id}`).then(({data})=>{
       setProductInfo(data.data);
     })
