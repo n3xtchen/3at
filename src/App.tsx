@@ -22,6 +22,8 @@ import OnlinePay from './Components/OnlinePay/OnlinePay';
 import AllOrders from './Components/AllOrders/AllOrders';
 import OrderDetails from './Components/OrderDetails/OrderDetails';
 
+import { ProductContextProvider } from './Context/ProductContext/ProductContext';
+
 function App() {
   const [userData, setUserData] = useState(null)
   const [hash, setHash] = useState(null);
@@ -69,6 +71,7 @@ useEffect(()=>{
  }
  
   return <>
+  <ProductContextProvider>
   <CartContextProvider userData = {userData}>
     <WishListContextProvider>
     <Toaster/>
@@ -77,6 +80,7 @@ useEffect(()=>{
 </RouterProvider>
 </WishListContextProvider>
   </CartContextProvider>
+</ProductContextProvider>
 
   
   </> 

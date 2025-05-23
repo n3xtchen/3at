@@ -5,9 +5,6 @@ import MainSlider from '../MainSlider/MainSlider'
 import { cartContext } from '../../Context/CartContext/CartContext'
 
 export default function Home({changeHref}) {
-  
-
-
   useEffect(()=>{
     if(window.location.href == "http://localhost:3000/allorders"){
       window.location.href = "http://localhost:3000/#/allorders"
@@ -19,8 +16,8 @@ export default function Home({changeHref}) {
     document.documentElement.scrollTop = 0;
   },[])
   return <>
-  <MainSlider></MainSlider>
-  <CategoriesSlider></CategoriesSlider>
- <FeaturedProducts></FeaturedProducts>
+    <MainSlider></MainSlider>
+    <CategoriesSlider></CategoriesSlider>
+    <FeaturedProducts></FeaturedProducts>
   </>
 }
