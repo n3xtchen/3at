@@ -55,16 +55,12 @@ function App() {
   function saveUserData(){
     // let encodedToken = localStorage.getItem("userToken");
     // localStorage.setItem("id" , decodedToken.id)
-    console.log("xx")
     let user_id = localStorage.getItem("id")
-    console.log(user_id)
     setUserData(user_id) ;
-    console.log(userData)
   }
 
   useEffect(()=>{
     if(localStorage.getItem("access_token")){
-      console.log("xx")
       saveUserData();
     }
   },[])

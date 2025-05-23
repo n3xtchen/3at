@@ -12,7 +12,7 @@ export default function CategoryProducts() {
   const [likedProducts, setLikedProducts] = useState([]);
   const [wishlist, setWishList] = useState(null);
   
-  let [categoryProducts, getCategoryProducts] = useContext(productContext)
+  let {categoryProducts, getCategoryProducts} = useContext(productContext)
   let {getLoggedUserWishList,addToWishList,deleteFromWishList} = useContext(wishlistContext);
   let {addToCart,setNumOfCartItems} = useContext(cartContext);
 
@@ -77,8 +77,8 @@ export default function CategoryProducts() {
             {likedProducts.includes(product.id)&&product.id != likedItem?<i onClick={()=>removeProductFromWishList(product.id)} className="fa-solid fa-heart position-absolute top-0 text-danger end-0 p-1 "><i cl></i></i>:""}
             {likedProducts.includes(product.id)==false&&product.id != likedItem?<i onClick={()=>addProductToWishList(product.id)} className="fa-solid fa-heart position-absolute top-0  end-0 p-1 "></i>:""}
             <Link to={`/productDetails/${product.id}`}>
-              <img src={product.imageCover} alt="" className='w-100 p-2' />
-              <span className='text-main font-sm fw-bold'>{product.category.name}</span>
+              <img src={product.img_path} alt="" className='w-100 p-2' />
+              <span className='text-main font-sm fw-bold'>{product.category_id}</span>
               <h3 className='h6'>{product.title.split(" ").slice(0,2).join(" ")}</h3>
               <div className='d-flex justify-content-between'>
                 <span className='text-muted'>{product.price} EGP</span>

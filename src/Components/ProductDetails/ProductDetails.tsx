@@ -16,7 +16,7 @@ export default function ProductDetails() {
     slidesToScroll: 1 
   };
 
-  async function addProduct(productId){
+  async function addProduct(productId: number){
     setIsLoading(true);
       let response =  await addToCart(productId);
       if (response?.data?.status === "success") {
@@ -32,19 +32,20 @@ export default function ProductDetails() {
     document.documentElement.scrollTop = 0;
   }, [])
 
-  const [productInfo, getProductDetails] = useContext(productContext); 
+  const {productInfo, getProductDetails} = useContext(productContext); 
   let {id} = useParams();
 
   useEffect(() => {
     getProductDetails(id)
+    console.log(productInfo)
   },[])
 
   return <>
     {productInfo?<div className = "row p-5">
       <div className="col-lg-4  col-md-5 col-sm-6 col-12">
         {productInfo?.images?<Slider {...settings}>
-          {productInfo.images.map((image,i)=>
-            <img src={image} alt="" />
+          {productInfo.images.map((image: string, i: number)=>
+            <img src={image} alt="" key={i} />
           )}
           </Slider>:<div className='w-100 h-100 d-flex justify-content-center align-items-center text-main fa-3x'><i className='fas fa-spinner fa-spin'></i></div>}
       </div>
@@ -58,7 +59,7 @@ export default function ProductDetails() {
               {productInfo.ratingsAverage}
             </span>
           </div>
-         {isLoading? <button  className='btn bg-main text-white w-100 my-2'><i className='fas fa-spinner fa-spin'></i> </button>: <button onClick={()=>addProduct(productInfo.id)} className='btn bg-main text-white w-100 my-2'>Add to Cart + </button>}
+         {isLoading? <button className='btn bg-main text-white w-100 my-2'><i className='fas fa-spinner fa-spin'></i> </button>: <button onClick={()=>addProduct(productInfo.id)} className='btn bg-main text-white w-100 my-2'>Add to Cart + </button>}
         </div>
       </div>
     </div>:<div className='w-100 vh-100 d-flex justify-content-center align-items-center text-main fa-3x'><i className='fas fa-spinner fa-spin'></i></div>}
