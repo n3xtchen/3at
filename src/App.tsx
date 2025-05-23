@@ -11,7 +11,6 @@ import Login from './Components/Login/Login';
 import Register from './Components/Register/Register';
 import Home from './Components/Home/Home';
 import { useContext, useEffect, useState } from 'react';
-// import { jwtDecode } from 'jwt-decode';
 import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute';
 import { CartContextProvider } from './Context/CartContext/CartContext';
 import CategoryProducts from './Components/CategoryProducts/CategoryProducts';
@@ -32,41 +31,47 @@ function App() {
   function changeHref(value){
     setHash(value)
   }
+
   let routers = createHashRouter([
     {path:"" , element:<Layout hash = {hash}  userData = {userData} deleteUserData = {deleteUserData}/> , children:[
-      {index:true , element: <ProtectedRoute ><Home  changeHref={changeHref}/></ProtectedRoute>},
-        {path:"cart" , element:<ProtectedRoute ><Cart  changeHref={changeHref}/> </ProtectedRoute>},
-        {path:"categories" , element:<ProtectedRoute  ><Categories  changeHref={changeHref}/> </ProtectedRoute>},
-        {path:"products" , element:<ProtectedRoute  ><Products userData = {userData}  changeHref={changeHref} /> </ProtectedRoute>},
+      {index:true , element: <Home  changeHref={changeHref}/>},
+      {path:"login" , element:<Login changeHref={changeHref} saveUserData = {saveUserData}/>},
+      {path:"register" , element:< Register changeHref={changeHref}/>},
 
-        {path:"allorders" , element:<ProtectedRoute ><AllOrders changeHref = {changeHref}/> </ProtectedRoute>},
-        {path:"productDetails/:id" , element:<ProtectedRoute><ProductDetails/> </ProtectedRoute>},
+      {path:"cart" , element:<ProtectedRoute ><Cart  changeHref={changeHref}/> </ProtectedRoute>},
+      {path:"categories" , element:<ProtectedRoute  ><Categories  changeHref={changeHref}/> </ProtectedRoute>},
+      {path:"products" , element:<ProtectedRoute  ><Products userData = {userData}  changeHref={changeHref} /> </ProtectedRoute>},
+
+      {path:"allorders" , element:<ProtectedRoute ><AllOrders changeHref = {changeHref}/> </ProtectedRoute>},
+      {path:"productDetails/:id" , element:<ProtectedRoute><ProductDetails/> </ProtectedRoute>},
       {path:"categoryproducts/:id" , element:<ProtectedRoute><CategoryProducts/> </ProtectedRoute>},
       {path:"orderdetails/:index" , element:<ProtectedRoute><OrderDetails/> </ProtectedRoute>},
       {path:"wishlist" , element:<ProtectedRoute><WishList  changeHref={changeHref}/></ProtectedRoute>},
-        {path:"onlinepay" , element:<ProtectedRoute><OnlinePay/></ProtectedRoute>},
+      {path:"onlinepay" , element:<ProtectedRoute><OnlinePay/></ProtectedRoute>},
       {path:"cashorder" , element:<ProtectedRoute><CashOrder/></ProtectedRoute>},
-      {path:"login" , element:<Login changeHref={changeHref} saveUserData = {saveUserData}/>},
-        {path:"register" , element:< Register changeHref={changeHref}/>},
     ]}
   ])
 
   function saveUserData(){
-    let encodedToken = localStorage.getItem("userToken");
-    let decodedToken = jwtDecode(encodedToken) ;
-    localStorage.setItem("id" , decodedToken.id)
-    setUserData(decodedToken) ;
+    // let encodedToken = localStorage.getItem("userToken");
+    // localStorage.setItem("id" , decodedToken.id)
+    console.log("xx")
+    let user_id = localStorage.getItem("id")
+    console.log(user_id)
+    setUserData(user_id) ;
+    console.log(userData)
   }
 
   useEffect(()=>{
-    if(localStorage.getItem("userToken")){
+    if(localStorage.getItem("access_token")){
+      console.log("xx")
       saveUserData();
     }
   },[])
 
   function deleteUserData(){
-   setUserData(null) ;
-   localStorage.removeItem("userToken")
+    setUserData(null);
+    localStorage.removeItem("userToken")
   }
  
   return <>

@@ -8,13 +8,20 @@ export function UserContextProvider(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("")
 
-  function handleLogin({values, setUserData, navigate}){
+  function handleLogin({values, saveUserData, navigate}){
     setIsLoading(true);
-    axios.post(`http://localhost:5001/api/v1/auth/login` , values).then(({data})=>{
-      setIsLoading(false);
-      localStorage.setItem("userToken" , data.token)
-      localStorage.setItem("userToken" , data.token)
-      saveUserData();
+    axios.post(`http://127.0.0.1:5001/api/v1/user/login` , values).then(({data})=>{
+      const {user, access_token,refresh_token} = data.data;
+      const {id,user_name, avatar, nickname, email} = user;
+
+      localStorage.setItem('id', id);
+      localStorage.setItem('user_name', user_name);
+      localStorage.setItem('nick_name', nickname);
+      localStorage.setItem('avatar', avatar);
+      localStorage.setItem('email', email);
+      localStorage.setItem("access_token" , access_token)
+      localStorage.setItem("refresh_token" , refresh_token)
+      saveUserData()
       navigate("/")
     }).catch((error)=>{
       setErrorMsg(error.response.data.message)
@@ -24,7 +31,7 @@ export function UserContextProvider(props) {
 
   function handleRegister({values, navigate}){
     setIsLoading(true);
-    axios.post(`https://route-ecommerce.onrender.com/api/v1/auth/signup` , values).then(()=>{
+    axios.post(`http://127.0.0.1:5001/api/v1/user/register` , values).then(()=>{
       setIsLoading(false);
       navigate("/login")
     }).catch((error)=>{
