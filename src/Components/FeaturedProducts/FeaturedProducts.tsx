@@ -37,6 +37,7 @@ export default function FeaturedProducts() {
   useEffect(()=>{
     getProducts()
     getLikedProducts()
+    console.log(addedProduct)
   },[])
 
   async function addProductToWishList(productId){
@@ -84,7 +85,7 @@ export default function FeaturedProducts() {
               </span>
             </div>
           </Link>
-          {addedProduct == product._id ? <button className='btn bg-main text-white w-100 my-2'><i className='fas fa-spinner fa-spin'></i> Adding... </button>:<button onClick={()=>addProduct(product._id)} className='btn bg-main text-white w-100 my-2'>Add to Cart + </button>}
+          {addedProduct == product.id ? <button className='btn bg-main text-white w-100 my-2'><i className='fas fa-spinner fa-spin'></i> Adding... </button>:<button onClick={()=>addProduct(product.id)} className='btn bg-main text-white w-100 my-2'>Add to Cart + </button>}
         </div>
       </div>) : <div className='w-100 vh-100 d-flex justify-content-center align-items-center text-main fa-3x'><i className='fas fa-spinner fa-spin'></i></div>}
       </div>

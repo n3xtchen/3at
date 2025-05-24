@@ -6,14 +6,15 @@ export let productContext = createContext();
 
 export function ProductContextProvider(props) {
 
-  const [categories, setCategories] = useState(null);
+  const [categories, setCategories] = useState([]);
   const [categoryProducts, setCategoryProducts] = useState(null);
   const [products, setProducts] = useState(null)
   const [productInfo, setProductInfo] = useState(null) ; 
 
   async function getCategories() {
-    let {data} = await  axios.get(`http://127.0.0.1:5001/api/v1/category/list`);
+    axios.get(`http://127.0.0.1:5001/api/v1/category/list`).then(({data}) => {
       setCategories(data.data.item);
+    })
   }
 
   async function getCategoryProducts(id: number){

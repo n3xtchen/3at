@@ -22,7 +22,7 @@ export default function Categories({changeHref}) {
           <Link to={`/categoryproducts/${category._id}`}>
             <div className="category">
               <div className='d-flex justify-content-center'>
-                <img src={category.image} className='w-100' alt={category.name} />
+                <img src={category.img_path} className='w-100' alt={category.name} />
               </div>
               <h2 className='h6 text-main text-center my-3'>{category.name}</h2>
             </div>
