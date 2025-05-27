@@ -12,13 +12,15 @@ export function CartContextProvider(props){
   
   let headers = {
     access_token: localStorage.getItem("access_token"),
-    refresh_token: localStorage.getItem("refresh_token")
+    refresh_token: localStorage.getItem("refresh_token"),
   }
   
   async function getUserCart() {
-    axios.get(`https://127.0.0.1:5001/api/v1/cart`, {
+    axios.get(`/api/v1/carts/list`, {
       headers
-    }).then((response)=> setNumOfCartItems(response.data.numOfCartItems) )
+    }).then((response)=> {
+			setNumOfCartItems(response.data.data.total) 
+    })
     .catch((error)=>  console.log(error))
   }
   
@@ -26,11 +28,12 @@ export function CartContextProvider(props){
     getUserCart();
   
   },[])
-  
  
-  async function addToCart(productId: number) {
-    return axios.post(`http://127.0.0.1:5001/api/v1/cart` , {
-      productId
+  async function addToCart(bossId: number, productId: number, num: number) {
+    return axios.post(`/api/v1/carts/create` , {
+      "product_id": productId,
+			"boss_id": bossId,
+			num
     }, {
       headers
     }).then((response)=>response)
@@ -38,14 +41,13 @@ export function CartContextProvider(props){
   }
   
   async function getLoggedUserCart(){
-    return  axios.get(`https://127.0.0.1:5001/api/v1/cart`, {
+    return  axios.get(`/api/v1/carts/list`, {
       headers
-    }).then((response)=> response)
+    }).then((response)=> response.data)
     .catch((error)=> error)
   }
   
   async function deleteItem(productId: number) {
-  
     return axios.delete(`http://127.0.0.1:5001/api/v1/cart/${productId}`, {
       headers
     }).then((response)=>response)

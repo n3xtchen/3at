@@ -19,7 +19,7 @@ export default function Categories({changeHref}) {
     <div className='mt-5'>
       {categories? <div className="row  justify-content-center">
         {categories.map((category,i)=><div key={i} className='col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12'>
-          <Link to={`/categoryproducts/${category._id}`}>
+          <Link to={`/categoryproducts/${category.id}`}>
             <div className="category">
               <div className='d-flex justify-content-center'>
                 <img src={category.img_path} className='w-100' alt={category.name} />

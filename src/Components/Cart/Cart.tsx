@@ -11,12 +11,12 @@ export default function Cart({changeHref}) {
 
   async function getCart(){
     let response = await getLoggedUserCart() ;
-    if(response?.data?.status === "success") {
-      setCartDetails(response.data.data) ;
-      setCartId(response.data.data._id)
+    if(response?.status === 200) {
+      setCartDetails(response.data.item) ;
+      // setCartId(response.data.data._id)
     }
   }
-  
+
   useLayoutEffect(() => {
     document.documentElement.scrollTop = 0;
   },[])
@@ -60,21 +60,21 @@ export default function Cart({changeHref}) {
     <div className=" mt-5 cart-details ">
       <div className="total-price">
         <h2 className=''>Shop Cart</h2>
-        <h6 className='text-main'>Total Cart Price : {CartDetails.totalCartPrice}</h6>
+        <h6 className='text-main'>Total Cart Price : {/*CartDetails.totalCartPrice*/}</h6>
       </div>
-      {CartDetails.products.map((product, i) => <div key={i} className='row justify-content-around  my-2 px-0 py-4 cart-item align-items-center py-2 border-bottom'>
+      {CartDetails.map((product, i) => <div key={i} className='row justify-content-around  my-2 px-0 py-4 cart-item align-items-center py-2 border-bottom'>
         <div className="col-lg-10 col-md-8 col-6 d-flex align-items-center">
-          <img src={product.product.imageCover} className='cart-img mx-2' alt="" />
+          <img src={product.img_path} className='cart-img mx-2' alt="" />
           <div>
-            <h6>{product.product.title.split(" ").slice(0,2).join(" ")}</h6>
+            <h6>{product?.title.split(" ").slice(0,2).join(" ")}</h6>
             <h6 className='text-main'>price : {product.price}</h6>
-            {deletedId == product.product.id ? <button className='delete-btn'><i className='fas fa-spinner fa-spin p-0 m-0'></i><span className='px-1'>Removing...</span></button>: <button className='delete-btn' onClick={()=>deleteProduct(product.product.id)}><i className='fa-regular  fa-trash-can  p-0 m-0'></i><span className='px-1'>Remove</span></button>}
+            {deletedId == product.id ? <button className='delete-btn'><i className='fas fa-spinner fa-spin p-0 m-0'></i><span className='px-1'>Removing...</span></button>: <button className='delete-btn' onClick={()=>deleteProduct(product.id)}><i className='fa-regular  fa-trash-can  p-0 m-0'></i><span className='px-1'>Remove</span></button>}
           </div>
         </div>
         <div className='col-lg-2 col-md-4 col-6'>
-          {icreaseId == product.product.id ? <button className='btn update-btn border-main btn-sm'><i className='fas fa-spinner fa-spin text-center'></i></button>:<button onClick={() => updateProduct(product.product.id, product.count+1, 1)} className='btn update-btn border-main btn-sm'>+</button>}
-            <span className='px-2'>{product.count}</span>
-            {decreseId == product.product.id?<button className='btn update-btn border-main btn-sm'><i className='fas fa-spinner fa-spin'></i></button>: <button onClick={() => updateProduct(product.product.id, product.count-1, -1)} className='btn update-btn border-main btn-sm'>-</button>}
+          {icreaseId == product.id ? <button className='btn update-btn border-main btn-sm'><i className='fas fa-spinner fa-spin text-center'></i></button>:<button onClick={() => updateProduct(product.id, product.count+1, 1)} className='btn update-btn border-main btn-sm'>+</button>}
+            <span className='px-2'>{product.num}</span>
+            {decreseId == product.id?<button className='btn update-btn border-main btn-sm'><i className='fas fa-spinner fa-spin'></i></button>: <button onClick={() => updateProduct(product.id, product.count-1, -1)} className='btn update-btn border-main btn-sm'>-</button>}
         </div>
       </div>)}
       <Link to = {`/onlinepay`}><button className='btn bg-main text-white mx-3'><i className="fa-brands fa-cc-visa px-1"></i>Online Pay</button></Link>
