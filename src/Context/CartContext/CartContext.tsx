@@ -1,13 +1,22 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 
+export interface CartItem {
+  id: number,
+  name: string,
+  title: string,
+  imgPath: string,
+  price: number,
+  num: number
+}
+
 export let cartContext = createContext();
 
 export function CartContextProvider(props){
  
   const [url, setUrl] = useState(window.location.origin) ;
   const [numOfCartItems, setNumOfCartItems] = useState(0) ;
-  const [cartDetails, setCartDetails] = useState(null);
+  const [cartItems, setCartItems] = useState<List<CartItem>>([]);
   
   let headers = {
     access_token: localStorage.getItem("access_token"),
@@ -34,7 +43,7 @@ export function CartContextProvider(props){
     }).then((response) => {
       if(response.data?.status === 200) {
         setNumOfCartItems(response.data.data.total) 
-        setCartDetails(response.data.data.item)
+        setCartItems(response.data.data.item)
       }
     })
     .catch((error)=> error)
@@ -46,7 +55,7 @@ export function CartContextProvider(props){
     },{
       headers
     }).then((response)=> {
-      setCartDetails(cartDetails.filter(item => item.id != id))
+      setCartItems(cartItems.filter((item: CartItem) => item.id != id))
       setNumOfCartItems(numOfCartItems-1)
       response
     })
@@ -93,7 +102,7 @@ export function CartContextProvider(props){
   },[])
   
   return <cartContext.Provider value={{
-    cartDetails, setCartDetails, numOfCartItems, setNumOfCartItems,
+    cartItems, setCartItems, numOfCartItems, setNumOfCartItems,
     addToCart, getLoggedUserCart, deleteItem, updateItem, 
     payOnline, cashOrder, getUserOrders, url}}>
   { props.children}

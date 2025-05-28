@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 
 export default function Navbar({userData , deleteUserData , hash}) {
 
-  let {numOfCartItems } = useContext(cartContext);
+  let { numOfCartItems } = useContext(cartContext);
   let { numOfWishListItems} = useContext(wishlistContext);
 
   return <>
