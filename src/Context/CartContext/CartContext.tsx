@@ -24,17 +24,18 @@ export function CartContextProvider(props){
   }
 
   async function addToCart(bossId: number, productId: number, num: number) {
-    return axios.post(`/api/v1/carts/create` , {
+    const response = await axios.post(`/api/v1/carts/create` , {
       "product_id": productId,
 			"boss_id": bossId,
 			num
     }, {
       headers
-    }).then((response)=> {
-      getLoggedUserCart()
-      response
     })
-    .catch((error)=>error)
+
+    // todo: 避免全量请求，使用追加和更新的方式修改 CartItems
+    await getLoggedUserCart()
+
+    return response
   }
   
   async function getLoggedUserCart() {

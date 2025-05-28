@@ -15,16 +15,15 @@ export default function FeaturedProducts() {
   let {addToCart,setNumOfCartItems} = useContext(cartContext);
   let {getLoggedUserWishList, addToWishList, deleteFromWishList, setNumOfWishListItems} = useContext(wishlistContext);
 
-  async function addProduct(bossId, productId, num){
+  async function addProductToCart(bossId, productId, num){
     setAddedProduct(productId);
     let response =  await addToCart(bossId, productId, num);
-    console.log(response)
     if (response?.status === 200) {
       setAddedProduct(null)
       toast.success(response.statusText)
     } else {
       setAddedProduct(null)
-      toast.error(response.statusText);
+      toast.error(response.statusText)
     }
   }
 
@@ -37,7 +36,6 @@ export default function FeaturedProducts() {
   useEffect(()=>{
     getProducts()
     getLikedProducts()
-    console.log(addedProduct)
   },[])
 
   async function addProductToWishList(productId){
@@ -85,7 +83,7 @@ export default function FeaturedProducts() {
               </span>
             </div>
           </Link>
-          {addedProduct == product.id ? <button className='btn bg-main text-white w-100 my-2'><i className='fas fa-spinner fa-spin'></i> Adding... </button>:<button onClick={()=>addProduct(product.boss_id, product.id, 1)} className='btn bg-main text-white w-100 my-2'>Add to Cart + </button>}
+          {addedProduct == product.id ? <button className='btn bg-main text-white w-100 my-2'><i className='fas fa-spinner fa-spin'></i> Adding... </button>:<button onClick={()=>addProductToCart(product.boss_id, product.id, 1)} className='btn bg-main text-white w-100 my-2'>Add to Cart + </button>}
         </div>
       </div>) : <div className='w-100 vh-100 d-flex justify-content-center align-items-center text-main fa-3x'><i className='fas fa-spinner fa-spin'></i></div>}
       </div>
