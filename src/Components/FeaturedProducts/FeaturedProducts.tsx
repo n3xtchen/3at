@@ -18,13 +18,13 @@ export default function FeaturedProducts() {
   async function addProduct(bossId, productId, num){
     setAddedProduct(productId);
     let response =  await addToCart(bossId, productId, num);
-    if (response?.data?.status === "success") {
-      setNumOfCartItems(response.data.numOfCartItems)
+    console.log(response)
+    if (response?.status === 200) {
       setAddedProduct(null)
-      toast.success(response.data.message)
+      toast.success(response.statusText)
     } else {
       setAddedProduct(null)
-      toast.error(response.message);
+      toast.error(response.statusText);
     }
   }
 
