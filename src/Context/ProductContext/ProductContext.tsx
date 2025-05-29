@@ -1,35 +1,51 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
-import {describe} from "vitest";
 
-export let productContext = createContext();
+export let productContext = createContext({});
+
+export interface Category {
+  id: number,
+  category_name: string
+}
+
+export interface Product {
+  id: number,
+  boss_id: number,
+  category_id: number,
+  category: Category,
+  name: string,
+  title: string,
+  price: number,
+  img_path: string,
+  ratingsAverage: number
+}
 
 export function ProductContextProvider(props) {
 
   const [categories, setCategories] = useState([]);
   const [categoryProducts, setCategoryProducts] = useState(null);
-  const [products, setProducts] = useState(null)
+  const [products, setProducts] = useState<List<Product>>([])
   const [productInfo, setProductInfo] = useState(null) ; 
 
   async function getCategories() {
-    axios.get(`http://127.0.0.1:5001/api/v1/category/list`).then(({data}) => {
+    axios.get(`/api/v1/category/list`).then(({data}) => {
       setCategories(data.data.item);
     })
   }
 
   async function getCategoryProducts(id: number){
-    let {data} = await axios.get(`http://127.0.0.1:5001/api/v1/product/list?category_id=${id}`) ; 
+    let {data} = await axios.get(`/api/v1/product/list?category_id=${id}`) ; 
     setCategoryProducts(data.data.item);
   }
 
   function getProducts() {
-    axios.get(`http://127.0.0.1:5001/api/v1/product/list`).then(({data})=>{
+    axios.get(`/api/v1/product/list`).then(({data})=>{
       setProducts(data.data.item)
     })
   }
 
   function getProductDetails(id: string){
-    axios.get(`http://127.0.0.1:5001/api/v1/product/show?id=${id}`).then(({data})=>{
+    axios.get(`/api/v1/product/show?id=${id}`).then(({data})=>{
       // title, images[] description price ratingsAverage
       const {title, img_path, price, name, id} = data.data
       let product = {
@@ -45,7 +61,9 @@ export function ProductContextProvider(props) {
     })
   }
 
-  return <productContext.Provider value={{categories, getCategories, categoryProducts, getCategoryProducts, setProductInfo, products, setProducts, getProducts, getProductDetails, productInfo}}>
+  return <productContext.Provider value={{
+    categories, getCategories, categoryProducts, getCategoryProducts,
+    productInfo, setProductInfo, products, setProducts, getProducts, getProductDetails}}>
     {props.children}
   </productContext.Provider>
 }
