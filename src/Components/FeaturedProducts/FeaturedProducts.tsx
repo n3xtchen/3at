@@ -1,19 +1,18 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
+import { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { cartContext } from '../../Context/CartContext/CartContext'
 import toast from 'react-hot-toast'
+
+import { cartContext } from '../../Context/CartContext/CartContext'
 import { wishlistContext } from '../../Context/WishListContext/WishListContext'
-import { productContext, ThemeContext } from '../../Context/ProductContext/ProductContext'
+import { productContext } from '../../Context/ProductContext/ProductContext'
 
 export default function FeaturedProducts() {
   const [addedProduct, setAddedProduct] = useState(null)
-  const [likedItem, setLikedItem] = useState(null)
-  const [likedProducts, setLikedProducts] = useState([]);
-  const [wishlist, setWishList] = useState(null);
 
-  let {products, setProducts, getProducts} = useContext(productContext)
-  let {addToCart,setNumOfCartItems} = useContext(cartContext);
-  let {getLoggedUserWishList, addToWishList, deleteFromWishList, setNumOfWishListItems} = useContext(wishlistContext);
+  const [likedItem, setLikedItem] = useState(0)
+  let { products, getProducts } = useContext(productContext)
+  let { addToCart } = useContext(cartContext);
+  let { likedProducts, addToWishList, deleteFromWishList } = useContext(wishlistContext);
 
   async function addProductToCart(bossId, productId, num){
     setAddedProduct(productId);
@@ -27,37 +26,26 @@ export default function FeaturedProducts() {
     }
   }
 
-  async function getLikedProducts(){
-    // let {data} =  await getLoggedUserWishList();
-    // setWishList(data.data);
-    // setLikedProducts(data.data.map((product)=> product.id))  
-  }
-
   useEffect(()=>{
     getProducts()
-    getLikedProducts()
   },[])
 
-  async function addProductToWishList(productId){
+  async function addProductToWishList(productId: number, bossId: number){
     setLikedItem(productId)
-    let {data} = await  addToWishList(productId);
-    if(data.status == "success"){
-      setNumOfWishListItems(data.data.length)
-      setLikedItem(null)
-      toast.success(data.message)
-      setLikedProducts(data.data)
+    let { data }  = await addToWishList(productId, bossId);
+    if(data.status == 200) {
+      toast.success(data.msg)
     }
+    setLikedItem(0)
   }
 
-  async function removeProductFromWishList(productId){
+  async function removeProductFromWishList(productId: number, bossId: number){
     setLikedItem(productId)
-    let {data} = await  deleteFromWishList(productId);
-    if (data?.status == "success") {
-      setNumOfWishListItems(data.data.length)
-      setLikedItem(null)
+    let {data} = await  deleteFromWishList(productId, bossId);
+    if (data?.status == 200) {
       toast.success("product removed successfully from your wishlist")
-      setLikedProducts(data.data)
     }
+    setLikedItem(0)
   }
 
   useLayoutEffect(()=>{
@@ -68,9 +56,13 @@ export default function FeaturedProducts() {
     <div className="row justify-content-center ">
       {products?products.map((product,i)=><div key={i} className='col-xl-2 col-lg-3 col-md-4 col-sm-6 col-xs-12  h-25 '>
         <div className='product py-3 position-relative px-3'>
-          {product.id ==likedItem ? <i className='fas fa-spin fa-spinner  position-absolute top-0 text-danger end-0 p-1' ></i>:""}
-          {likedProducts.includes(product.id)&&product.id != likedItem?<i onClick={()=>removeProductFromWishList(product.id)} className="fa-solid fa-heart position-absolute top-0 text-danger end-0 p-1 "></i>:""}
-          {likedProducts.includes(product.id)==false&&product.id != likedItem?<i onClick={()=>addProductToWishList(product.id)} className="fa-solid fa-heart position-absolute top-0  end-0 p-1 "></i>:""}
+          {/* 喜欢按钮的过度阶段  */}
+          {product.id == likedItem ? <i className='fas fa-spin fa-spinner  position-absolute top-0 text-danger end-0 p-1' ></i>:""}
+          {/* 是否喜欢 */}
+          { likedProducts.includes(product.id) && likedItem == 0 ? 
+            <i onClick={()=>removeProductFromWishList(product.id, product.boss_id)} className="fa-solid fa-heart position-absolute top-0 text-danger end-0 p-1 "></i> :
+            <i onClick={()=>addProductToWishList(product.id, product.boss_id)} className="fa-solid fa-heart position-absolute top-0  end-0 p-1 "></i>
+          }
           <Link to={`/productDetails/${product.id}`}>
             <img src={product.img_path} alt="" className='w-100 p-2' />
             <span className='text-main font-sm fw-bold'>{product.category.category_name}</span>
