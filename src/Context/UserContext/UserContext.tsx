@@ -10,7 +10,7 @@ export function UserContextProvider(props) {
 
   function handleLogin({values, saveUserData, navigate}){
     setIsLoading(true);
-    axios.post(`http://127.0.0.1:5001/api/v1/user/login` , values).then(({data})=>{
+    axios.post(`/api/v1/user/login` , values).then(({data})=>{
       const {user, access_token,refresh_token} = data.data;
       const {id,user_name, avatar, nickname, email} = user;
 
@@ -31,7 +31,7 @@ export function UserContextProvider(props) {
 
   function handleRegister({values, navigate}){
     setIsLoading(true);
-    axios.post(`http://127.0.0.1:5001/api/v1/user/register` , values).then(()=>{
+    axios.post(`/api/v1/user/register` , values).then(()=>{
       setIsLoading(false);
       navigate("/login")
     }).catch((error)=>{
