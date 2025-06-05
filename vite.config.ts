@@ -14,6 +14,10 @@ export default defineConfig({
       '/api': {
         target: 'http://127.0.0.1:5001',
         changeOrigin: true
+      },
+      '/create-payment-intent': {
+        target: 'http://localhost:4242',
+        changeOrigin: true
       }
     }
   },
